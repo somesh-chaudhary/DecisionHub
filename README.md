@@ -1,57 +1,56 @@
 # DecisionHub – Collaborative Decision-Making Platform
 
-DecisionHub is a full-stack web application that helps people make decisions together. Users can create decisions, add options, vote, compare alternatives, and discuss their choices in one place.
-
-Whether it's a group trying to choose the best option or a community sharing opinions, DecisionHub makes the process simple and organized.
+DecisionHub is a full-stack web application designed to make group decision-making easier. Users can create decisions, add options, vote, compare alternatives, and discuss their choices in one place.
 
 ## ✨ Features
 
-- **User Authentication** – Secure user registration and login.
-- **Create Decisions** – Create decision boards and add multiple options.
-- **Voting System** – Let users vote for the options they prefer.
-- **Option Comparison** – Compare different options using parameters.
-- **Communities** – Create or join communities and make decisions together.
-- **Discussions & Comments** – Share opinions and discuss available options.
-- **Notifications** – Keep users updated about relevant activities.
-- **Feedback System** – Allow users to share feedback about the platform.
-- **Moderation** – Support reporting and management of inappropriate content.
-
-*Note: Features may vary depending on the current implementation.*
+- 🔐 **User Authentication** – User registration and login.
+- 📋 **Decision Management** – Create decisions and manage available options.
+- 🗳️ **Voting System** – Vote for preferred options.
+- ⚖️ **Option Comparison** – Compare alternatives using different parameters.
+- 👥 **Communities** – Create and join communities to make decisions together.
+- 💬 **Discussions & Comments** – Share opinions and discuss available options.
+- 🔔 **Notifications** – Receive updates about relevant activities.
+- ⭐ **Feedback System** – Submit feedback about the platform.
+- 🛡️ **Moderation** – Report inappropriate content for review.
+- 📊 **Analytics** – View decision-related information and results.
 
 ## 🛠️ Tech Stack
 
-**Frontend**
+### Frontend
 - React
 - JavaScript
-- HTML & CSS
+- HTML5
+- CSS3
 
-**Backend**
+### Backend
 - Java
 - Spring Boot
+- Spring Security
 - REST APIs
-- Spring Security / JWT Authentication
+- JWT Authentication
 
-**Database**
+### Database
 - PostgreSQL
-- Neon (cloud-hosted PostgreSQL)
+- Neon
 
-**Tools & Deployment**
-- Git & GitHub
+### Tools & Deployment
+- Git and GitHub
 - Docker
-- Vercel (frontend deployment)
-- Render (backend deployment)
+- Vercel
+- Render
 
 ## 📁 Project Structure
 
 ```text
 DecisionHub/
 ├── backend/
-│   ├── Dockerfile
-│   └── src/
-│       └── main/
-├── frontend/
 │   ├── src/
+│   │   └── main/
+│   └── Dockerfile
+├── frontend/
 │   ├── public/
+│   ├── src/
 │   └── package.json
 └── README.md
 ```
@@ -67,8 +66,8 @@ Make sure you have installed:
 - Java JDK
 - Maven
 - Node.js and npm
-- PostgreSQL, or access to a Neon PostgreSQL database
 - Git
+- Access to a PostgreSQL database
 
 ### 1. Clone the Repository
 
@@ -77,50 +76,53 @@ git clone https://github.com/somesh-chaudhary/DecisionHub.git
 cd DecisionHub
 ```
 
-### 2. Set Up the Backend
+### 2. Configure the Backend
 
-Open a terminal and navigate to the backend folder:
+Navigate to the backend directory:
 
 ```bash
 cd backend
 ```
 
-Configure the database connection and other required settings using environment variables.
+Configure the required environment variables:
 
 ```env
-SPRING_DATASOURCE_URL=jdbc:postgresql://your-host/your-database?sslmode=require
+SPRING_DATASOURCE_URL=your_postgresql_jdbc_url
 SPRING_DATASOURCE_USERNAME=your_database_username
 SPRING_DATASOURCE_PASSWORD=your_database_password
-JWT_SECRET=your_secret_key
+JWT_SECRET=your_jwt_secret
 JWT_EXPIRATION_MS=86400000
 ```
 
-Replace the example values with your own credentials. Never commit database passwords, JWT secrets, or other sensitive information to GitHub.
+Replace the example values with your actual configuration. Never commit passwords or secret keys to GitHub.
 
-Run the backend using Maven:
+Start the backend:
 
 ```bash
 mvn spring-boot:run
 ```
 
-The backend should start on the port configured in the application.
+### 3. Configure the Frontend
 
-### 3. Set Up the Frontend
-
-Open another terminal:
+Open a new terminal and navigate to the frontend directory:
 
 ```bash
 cd frontend
+```
+
+Install the dependencies:
+
+```bash
 npm install
 ```
 
-Configure the backend API URL in your frontend environment variables:
+Create a `.env` file in the frontend directory and configure the backend API URL:
 
 ```env
 VITE_API_BASE_URL=http://localhost:8080
 ```
 
-Use the correct backend URL and port for your setup.
+Use the port configured for your local backend.
 
 Start the frontend:
 
@@ -128,51 +130,35 @@ Start the frontend:
 npm run dev
 ```
 
-Open the local URL shown in your terminal to access the application.
-
-## 🔐 Environment Variables
-
-The application uses environment variables for configuration.
-
-| Variable | Purpose |
-|---|---|
-| `SPRING_DATASOURCE_URL` | PostgreSQL JDBC connection URL |
-| `SPRING_DATASOURCE_USERNAME` | Database username |
-| `SPRING_DATASOURCE_PASSWORD` | Database password |
-| `JWT_SECRET` | Secret used for JWT authentication |
-| `JWT_EXPIRATION_MS` | Token expiration time in milliseconds |
-| `VITE_API_BASE_URL` | Backend API base URL used by the frontend |
-
-Keep credentials private and configure them separately for local development and deployment.
+Open the local URL displayed in your terminal to access the application.
 
 ## 🌐 Live Demo
 
 - **Frontend:** [DecisionHub](https://decision-hub-cyan.vercel.app/)
-- **Backend:** [DecisionHub API](https://decisionhub-san9.onrender.com)
+- **Backend:** [DecisionHub Backend](https://decisionhub-san9.onrender.com)
 
-The backend may take a little time to respond after a period of inactivity because it runs on a free hosting plan.
+*Note: The backend may take some time to respond after a period of inactivity because it uses free hosting.*
 
-## 🎯 Project Goal
+## 🎯 Project Objective
 
-The goal of DecisionHub is to make group decision-making easier by bringing voting, option comparison, and community discussions together in one platform.
+DecisionHub brings voting, option comparison, and community discussions together in one place.
 
-Instead of managing opinions across multiple chats or documents, users can organize their choices and make decisions in one place.
+The goal is to help individuals and groups organize their choices, share opinions, and make decisions through a simple and collaborative process.
 
 ## 🔮 Future Improvements
 
 - Real-time voting updates
-- Improved analytics and voting summaries
-- More advanced decision comparison tools
+- Enhanced decision analytics
+- Improved comparison tools
 - Better notification management
 - Enhanced mobile responsiveness
-- Additional community management features
 
-## 👨‍💻 Contributors
+## 🤝 Feedback
 
-Developed as part of the **Infosys Springboard Internship 7.0**.
-
-Contributions, suggestions, and feedback are welcome.
+Have suggestions or found an issue? Feel free to open an issue in the repository.
 
 ---
 
-**DecisionHub — Better decisions, made together.**
+<p align="center">
+  Built to make group decisions simpler.
+</p>
