@@ -1,0 +1,19 @@
+# Secrets
+.env
+*.env
+backend/.env
+
+# Local scripts & tools
+*.cmd
+backend/*.cmd
+frontend/*.cmd
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Build & Dependencies
+backend/target/
+frontend/node_modules/
+frontend/dist/

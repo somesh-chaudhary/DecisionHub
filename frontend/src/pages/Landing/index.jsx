@@ -68,6 +68,38 @@ const Landing = () => {
           </svg>
         </div>
 
+        {/* Live Status Pill */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          transition={{ duration: 0.4 }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '8px 18px',
+            borderRadius: '999px',
+            background: 'rgba(0, 245, 255, 0.08)',
+            border: '1px solid rgba(0, 245, 255, 0.35)',
+            marginBottom: '24px',
+            position: 'relative',
+            zIndex: 2,
+            boxShadow: '0 0 20px rgba(0, 245, 255, 0.15)',
+            backdropFilter: 'blur(8px)'
+          }}
+        >
+          <span style={{ 
+            width: '8px', 
+            height: '8px', 
+            borderRadius: '50%', 
+            background: 'var(--neon-cyan)', 
+            boxShadow: '0 0 10px var(--neon-cyan)'
+          }} />
+          <span style={{ fontSize: '0.82rem', fontWeight: '600', letterSpacing: '0.6px', color: 'var(--neon-cyan)', textTransform: 'uppercase' }}>
+            Real-Time Consensus & Polling Grid Active
+          </span>
+        </motion.div>
+
         <motion.h1 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           style={{ fontSize: '4.2rem', marginBottom: '20px', maxWidth: '900px', lineHeight: '1.15', fontFamily: 'Outfit', fontWeight: '800', position: 'relative', zIndex: 2 }}
@@ -77,7 +109,7 @@ const Landing = () => {
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-          style={{ color: 'var(--text-secondary)', fontSize: '1.3rem', maxWidth: '600px', marginBottom: '40px', lineHeight: '1.6', position: 'relative', zIndex: 2 }}
+          style={{ color: 'var(--text-secondary)', fontSize: '1.3rem', maxWidth: '600px', marginBottom: '36px', lineHeight: '1.6', position: 'relative', zIndex: 2 }}
         >
           Create Decision • Vote • Compare • Decide
         </motion.p>
@@ -86,9 +118,76 @@ const Landing = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
           style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 2 }}
         >
-          <Link to="/login" className="btn-primary" style={{ padding: '12px 28px', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: 'var(--glow-cyan)' }}>
-            Get Started <ArrowRight size={16} />
+          <Link 
+            to="/login" 
+            className="btn-primary" 
+            style={{ 
+              padding: '14px 32px', 
+              fontSize: '1rem', 
+              fontWeight: '600',
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '10px', 
+              borderRadius: '30px',
+              boxShadow: 'var(--glow-cyan)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Get Started Now <ArrowRight size={18} />
           </Link>
+        </motion.div>
+
+        {/* Live Metrics Showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          style={{
+            display: 'flex',
+            gap: '16px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            marginTop: '50px',
+            position: 'relative',
+            zIndex: 2,
+            maxWidth: '850px',
+            width: '100%'
+          }}
+        >
+          {[
+            { value: '1,200+', label: 'Decisions Resolved', color: 'var(--neon-cyan)' },
+            { value: '98.6%', label: 'Consensus Accuracy', color: 'var(--neon-pink)' },
+            { value: '50+', label: 'Active Communities', color: 'var(--success)' },
+            { value: '< 2.4s', label: 'Average Feedback Speed', color: '#a855f7' }
+          ].map((stat, i) => (
+            <div 
+              key={i} 
+              className="glass-panel" 
+              style={{
+                flex: '1 1 180px',
+                padding: '16px 20px',
+                borderRadius: '14px',
+                border: '1px solid var(--glass-border)',
+                background: 'rgba(255, 255, 255, 0.03)',
+                backdropFilter: 'blur(12px)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                transition: 'transform 0.3s ease, border-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.borderColor = stat.color;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.borderColor = 'var(--glass-border)';
+              }}
+            >
+              <span style={{ fontSize: '1.7rem', fontWeight: '800', fontFamily: 'Outfit', color: stat.color, letterSpacing: '-0.5px' }}>{stat.value}</span>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '4px', textAlign: 'center' }}>{stat.label}</span>
+            </div>
+          ))}
         </motion.div>
       </div>
 

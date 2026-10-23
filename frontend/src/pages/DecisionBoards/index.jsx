@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ThumbsUp, Plus, Search, Filter } from 'lucide-react';
+import { ThumbsUp, Plus, Search, Filter, Share2, Check } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import { useDynamicCategories } from '../../utils/categoryUtils';
+import { useToast } from '../../context/ToastContext';
 
 const DecisionBoard = () => {
   const navigate = useNavigate();
@@ -15,6 +16,20 @@ const DecisionBoard = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filterCategory, setFilterCategory] = useState('All');
+  const [copiedId, setCopiedId] = useState(null);
+  const { showToast } = useToast();
+
+  const handleShare = (e, dec) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareUrl = `${window.location.origin}/decision/${dec.id}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareUrl);
+      setCopiedId(dec.id);
+      showToast('Poll link copied to clipboard! 📋', 'success');
+      setTimeout(() => setCopiedId(null), 2500);
+    }
+  };
 
   // Fetch decisions and current user from backend on mount
   useEffect(() => {
@@ -103,6 +118,46 @@ const DecisionBoard = () => {
         </div>
       </div>
 
+      {/* Horizontal Category Filter Pills */}
+      <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '20px', marginBottom: '10px', scrollbarWidth: 'none' }}>
+        {['All', ...dynamicCategories].map(cat => {
+          const isActive = filterCategory === cat;
+          return (
+            <button
+              key={cat}
+              onClick={() => setFilterCategory(cat)}
+              style={{
+                background: isActive ? 'rgba(0, 245, 255, 0.15)' : 'rgba(255, 255, 255, 0.03)',
+                color: isActive ? 'var(--neon-cyan)' : 'var(--text-secondary)',
+                border: `1px solid ${isActive ? 'var(--neon-cyan)' : 'var(--glass-border)'}`,
+                boxShadow: isActive ? '0 0 14px rgba(0, 245, 255, 0.25)' : 'none',
+                padding: '8px 18px',
+                borderRadius: '999px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                fontWeight: isActive ? '600' : '400',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                  e.currentTarget.style.color = '#fff';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.borderColor = 'var(--glass-border)';
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                }
+              }}
+            >
+              {cat === 'All' ? '⚡ All Decisions' : `#${cat}`}
+            </button>
+          );
+        })}
+      </div>
+
       {loading ? (
         <div style={{ padding: '80px', textAlign: 'center', color: 'var(--text-secondary)' }} className="glass-panel">
           <div style={{ border: '3px solid rgba(0, 245, 255, 0.1)', borderTop: '3px solid var(--neon-cyan)', borderRadius: '50%', width: '40px', height: '40px', animation: 'spin 1s linear infinite', margin: '0 auto 20px auto' }}></div>
@@ -148,9 +203,15 @@ const DecisionBoard = () => {
                   padding: '4px 10px',
                   borderRadius: 'var(--radius-xl)',
                   fontSize: '0.72rem',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px'
                 }}>
-                  {dec.status}
+                  {dec.status !== 'Closed' && (
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--neon-cyan)', boxShadow: '0 0 6px var(--neon-cyan)' }} />
+                  )}
+                  {dec.status || 'Active'}
                 </span>
               </div>
               
@@ -179,7 +240,35 @@ const DecisionBoard = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
                   <ThumbsUp size={16} color="var(--neon-pink)" style={{ filter: 'drop-shadow(0 0 5px var(--neon-pink))' }} /> Active Consensus
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button
+                    onClick={(e) => handleShare(e, dec)}
+                    title="Share decision link"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid var(--glass-border)',
+                      borderRadius: 'var(--radius-sm)',
+                      padding: '8px 10px',
+                      color: copiedId === dec.id ? 'var(--neon-cyan)' : 'var(--text-secondary)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'var(--neon-cyan)';
+                      e.currentTarget.style.borderColor = 'var(--neon-cyan)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (copiedId !== dec.id) {
+                        e.currentTarget.style.color = 'var(--text-secondary)';
+                        e.currentTarget.style.borderColor = 'var(--glass-border)';
+                      }
+                    }}
+                  >
+                    {copiedId === dec.id ? <Check size={14} color="var(--neon-cyan)" /> : <Share2 size={14} />}
+                  </button>
                   <Link to={`/decision/${dec.id}`} className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.82rem', borderRadius: 'var(--radius-sm)' }}>
                     View
                   </Link>
